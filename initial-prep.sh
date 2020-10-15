@@ -38,7 +38,7 @@ git clone https://github.com/s-h-3-l-l/katoolin3 /tmp/katoolin3 &&
 	katoolin3 &&
 	apt-get purge faraday* -y
 	
-	'
+'
 
 # undervolting CPU and GPU
 pip3 install undervolt
