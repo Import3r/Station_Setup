@@ -20,7 +20,7 @@ sudo add-apt-repository ppa:phoerious/keepassxc  # keepassxc repo
 add-apt-repository "deb https://repo.vivaldi.com/archive/deb/ stable main" && apt update -y
 
 # perform desired installs of used software 
-apt-get install vim curl git mlocate python3-pip zoom-player virtualbox qemu qemu-kvm libvirt-daemon bridge-utils virt-manager virtinst keepassxc net-tools gnupg2 xorg xsensors -y;
+apt-get install vim curl git mlocate python3-pip zoom-player thunderbird virtualbox qemu qemu-kvm libvirt-daemon bridge-utils virt-manager virtinst keepassxc net-tools gnupg2 xorg xsensors -y;
 
 # install vivaldi
 wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
