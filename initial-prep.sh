@@ -1,9 +1,12 @@
 #!/bin/bash
 
 # check if running as root
-if [ "$EUID" -ne 0 ]
-	then echo "please run as root"
+if [ "$EUID" -ne 0 ]; then
+	echo "please run as root"
 	exit
+elif [ ! -f "packages.txt" ]; then
+	echo -e "'packages.txt' is missing, please create it before running again.\n\nYou can add the packages you wish to install through 'apt' to the 'packages.txt' file, as shown:\n"
+	echo -e "package1_name\npackage2_name\n.\n.\n.\n"	
 fi
 
 mkdir -p /tmp/DROPZONE/install_results
@@ -19,10 +22,10 @@ apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y;
 sudo add-apt-repository ppa:phoerious/keepassxc  # keepassxc repo
 add-apt-repository "deb https://repo.vivaldi.com/archive/deb/ stable main" && apt update -y
 
-# perform desired installs of used software 
-apt-get install vim curl git mlocate python3-pip zoom-player thunderbird virtualbox qemu qemu-kvm libvirt-daemon bridge-utils virt-manager virtinst keepassxc net-tools gnupg2 xorg xsensors -y;
+# perform installation of desired software 
+xargs -r -a packages.txt apt-get install -y
 
-# install vivaldi
+# install vivaldi browser
 wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
 apt install vivaldi-stable -y
 
