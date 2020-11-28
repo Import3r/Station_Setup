@@ -77,7 +77,7 @@ updatedb
 # Fix undetected headphone jack microphone (NOTE: Found Solution here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa)
 if { which "modprobe" > /dev/null; } && { cat /proc/asound/card*/codec* | grep Codec | grep "ALC23" > /dev/null; }; then
 	echo "options snd-hda-intel model=dell-headset-multi" >> /etc/modprobe.d/alsa-base.conf
-	mic_fix_state="modprobe installed and correct card identified. Fix was attempted. The folloowing is the tail of 'alsa-base.conf' file:\n\n";
+	mic_fix_state="modprobe installed and correct card identified. Fix was attempted. The following is the tail of 'alsa-base.conf' file:\n\n";
 	mic_fix_state+=$(tail /etc/modprobe.d/alsa-base.conf;)
 else 
 	mic_fix_state="ERROR: either modprobe was not found or the device has incompatible sound card. Fix was not applied.";
