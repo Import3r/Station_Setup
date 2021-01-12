@@ -25,6 +25,8 @@ apt update -y
 
 # perform installation of desired software 
 xargs -r -a packages.txt apt-get install -y
+wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && apt install /tmp/discord.deb
+wget "https://portswigger.net/burp/releases/download?product=community&version=2020.12.1&type=Linux" -O /tmp/burpsuite.sh && chmod 744 /tmp/burpsuite.sh && /tmp/burpsuite.sh
 
 # install vivaldi browser
 wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
