@@ -74,6 +74,7 @@ apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y;
 apt autoremove -y
 updatedb
 cat ./add_to_bashrc.txt >> ~/.bashrc
+ln switch-mode.sh ~/switch
 
 # Fix undetected headphone jack microphone (NOTE: Found Solution here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa)
 if { which "modprobe" > /dev/null; } && { cat /proc/asound/card*/codec* | grep Codec | grep "ALC23" > /dev/null; }; then
