@@ -25,16 +25,16 @@ apt update -y
 
 # perform installation of desired software 
 xargs -r -a packages.txt apt-get install -y
-wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && apt install /tmp/discord.deb
-wget "https://portswigger.net/burp/releases/download?product=community&version=2020.12.1&type=Linux" -O /tmp/burpsuite.sh && chmod 744 /tmp/burpsuite.sh && /tmp/burpsuite.sh
+wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && apt install /tmp/discord.deb  # Discord
+wget "https://portswigger.net/burp/releases/download?product=community&version=2020.12.1&type=Linux" -O /tmp/burpsuite.sh && chmod 744 /tmp/burpsuite.sh && /tmp/burpsuite.sh  # BurpSuite
+sudo apt-get remove docker docker-engine docker.io && apt install docker.io && systemctl start docker && systemctl enable docker
 
 # install vivaldi browser
 wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
 apt install vivaldi-stable -y
 
 # virtualization preparation
-systemctl start libvirtd
-systemctl enable libvirtd
+systemctl start libvirtd && systemctl enable libvirtd
 
 # undervolting CPU and GPU
 pip3 install undervolt
