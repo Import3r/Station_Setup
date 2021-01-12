@@ -18,3 +18,5 @@ gnupg2
 xorg
 xsensors
 gnome-tweaks
+gimp
+gparted
