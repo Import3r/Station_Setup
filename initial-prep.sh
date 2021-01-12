@@ -11,8 +11,8 @@ fi
 
 mkdir -p /tmp/DROPZONE/install_results
 
-{
 
+{
 # perform updates before starting
 add-apt-repository universe
 add-apt-repository multiverse
@@ -20,7 +20,8 @@ apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y;
 
 # add PPA repositories
 sudo add-apt-repository ppa:phoerious/keepassxc  # keepassxc repo
-add-apt-repository "deb https://repo.vivaldi.com/archive/deb/ stable main" && apt update -y
+add-apt-repository "deb https://repo.vivaldi.com/archive/deb/ stable main"
+apt update -y
 
 # perform installation of desired software 
 xargs -r -a packages.txt apt-get install -y
@@ -35,7 +36,6 @@ systemctl enable libvirtd
 
 # undervolting CPU and GPU
 pip3 install undervolt
-
 echo '[Unit]
 Description=undervolt
 After=suspend.target
@@ -54,7 +54,6 @@ WantedBy=multi-user.target
 WantedBy=suspend.target
 WantedBy=hibernate.target
 WantedBy=hybrid-sleep.target' > /etc/systemd/system/undervolt.service
-
 systemctl start undervolt
 systemctl enable undervolt
 
@@ -63,7 +62,6 @@ mkdir -p /tmp/gitpack/ && cd /tmp/gitpack/ && # prepare a temporary directory
 git clone https://github.com/dominiksalvet/gitpack.git ./ && # clone repository
 git checkout "$(git describe --tags --abbrev=0)" && # use latest version
 src/gitpack install github.com/dominiksalvet/gitpack # install GitPack
-
 gitpack install github.com/dominiksalvet/asus-fan-control
 systemctl enable asus-fan-control
 asus-fan-control set-temps 51 55 65 68 71 74 77 80

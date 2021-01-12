@@ -17,3 +17,4 @@ net-tools
 gnupg2
 xorg
 xsensors
+gnome-tweaks
