@@ -1,6 +1,8 @@
 #! /bin/bash
 
-if [ $1 != 'game' ] && [ $1 != 'normal' ]; then
+[ $# == 0 ] && echo "Need an argument." && exit
+
+if [[ $1 != 'game' && $1 != 'normal' ]]; then
 	echo "Command: $0 game|normal"
 	exit
 
