@@ -68,11 +68,12 @@ gitpack install github.com/dominiksalvet/asus-fan-control
 systemctl enable asus-fan-control
 asus-fan-control set-temps 51 55 65 68 71 74 77 80
 
-# clean up and system settings
+# clean up and adjust ystem settings
 localectl set-locale en_US.UTF-8
 apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y;
 apt autoremove -y
 updatedb
+cat ./add_to_bashrc.txt >> ~/.bashrc
 
 # Fix undetected headphone jack microphone (NOTE: Found Solution here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa)
 if { which "modprobe" > /dev/null; } && { cat /proc/asound/card*/codec* | grep Codec | grep "ALC23" > /dev/null; }; then
