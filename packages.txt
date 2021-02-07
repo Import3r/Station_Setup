@@ -5,7 +5,6 @@ mlocate
 python3-pip
 zoom-player
 thunderbird
-virtualbox
 qemu
 qemu-kvm
 libvirt-daemon
