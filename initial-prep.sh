@@ -9,7 +9,7 @@ elif [ ! -f "packages.txt" ]; then
 	echo -e "package1_name\npackage2_name\n.\n.\n.\n"	
 fi
 
-mkdir -p /tmp/DROPZONE/install_results
+mkdir -p /tmp/DROPZONE/install_results &&
 
 
 {
@@ -19,7 +19,6 @@ add-apt-repository multiverse
 apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y;
 
 # add PPA repositories
-sudo add-apt-repository ppa:phoerious/keepassxc  # keepassxc repo
 add-apt-repository "deb https://repo.vivaldi.com/archive/deb/ stable main"
 apt update -y
 
@@ -27,6 +26,7 @@ apt update -y
 xargs -r -a packages.txt apt-get install -y
 wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && apt install /tmp/discord.deb  # Discord
 wget "https://portswigger.net/burp/releases/download?product=community&version=2020.12.1&type=Linux" -O /tmp/burpsuite.sh && chmod 744 /tmp/burpsuite.sh && /tmp/burpsuite.sh  # BurpSuite
+wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && apt install /tmp/bitwarden.deb  # Bitwarden
 apt-get remove docker docker-engine docker.io && apt install docker.io && systemctl start docker && systemctl enable docker
 
 # install vivaldi browser
@@ -57,8 +57,7 @@ WantedBy=multi-user.target
 WantedBy=suspend.target
 WantedBy=hibernate.target
 WantedBy=hybrid-sleep.target' > /etc/systemd/system/undervolt.service
-systemctl start undervolt
-systemctl enable undervolt
+systemctl start undervolt && systemctl enable undervolt
 
 # install asus-fan-control and prequisites (gitpack)
 mkdir -p /tmp/gitpack/ && cd /tmp/gitpack/ && # prepare a temporary directory
@@ -69,7 +68,7 @@ gitpack install github.com/dominiksalvet/asus-fan-control
 systemctl enable asus-fan-control
 asus-fan-control set-temps 51 55 65 68 71 74 77 80
 
-# clean up and adjust ystem settings
+# clean up and adjust system settings
 localectl set-locale en_US.UTF-8
 apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y;
 apt autoremove -y

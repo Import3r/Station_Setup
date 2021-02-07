@@ -12,7 +12,6 @@ libvirt-daemon
 bridge-utils
 virt-manager
 virtinst
-keepassxc
 net-tools
 gnupg2
 xorg
