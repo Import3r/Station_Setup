@@ -19,3 +19,4 @@ gnome-tweaks
 gimp
 gparted
 bitwarden
+openvpn
