@@ -24,10 +24,11 @@ apt update -y
 
 # perform installation of desired software 
 xargs -r -a packages.txt apt-get install -y
-wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && apt install /tmp/discord.deb  # Discord
-wget "https://portswigger.net/burp/releases/download?product=community&version=2020.12.1&type=Linux" -O /tmp/burpsuite.sh && chmod 744 /tmp/burpsuite.sh && /tmp/burpsuite.sh  # BurpSuite
-wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && apt install /tmp/bitwarden.deb  # Bitwarden
-apt-get remove docker docker-engine docker.io && apt install docker.io && systemctl start docker && systemctl enable docker
+wget "https://atom.io/download/deb" -O /tmp/DROPZONE/atom.deb && apt install /tmp/DROPZONE/atom.deb  # Atom Text Editor
+wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && apt install /tmp/DROPZONE/discord.deb  # Discord
+wget "https://portswigger.net/burp/releases/download?product=community&version=2020.12.1&type=Linux" -O /tmp/DROPZONE/burpsuite.sh && chmod 744 /tmp/DROPZONE/burpsuite.sh && /tmp/DROPZONE/burpsuite.sh  # BurpSuite
+# wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && apt install /tmp/DROPZONE/bitwarden.deb  # Bitwarden
+apt-get remove docker docker-engine docker.io && apt install docker.io && systemctl start docker && systemctl enable docker  # Docker
 
 # install vivaldi browser
 wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
