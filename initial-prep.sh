@@ -69,6 +69,11 @@ gitpack install github.com/dominiksalvet/asus-fan-control
 systemctl enable asus-fan-control
 asus-fan-control set-temps 51 55 65 68 71 74 77 80
 
+# install themes
+tar xvzf ./theme_files/icons/candy-icons.tar.xz -C /usr/share/icons
+tar xvzf ./theme_files/icons/oreo_spark_dark_cursors.tar.gz -C /usr/share/icons
+tar xvzf ./theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
+
 # clean up and adjust system settings
 localectl set-locale en_US.UTF-8
 apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y;
