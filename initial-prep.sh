@@ -9,8 +9,9 @@ elif [ ! -f "packages.txt" ]; then
 	echo -e "package1_name\npackage2_name\n.\n.\n.\n"	
 fi
 
-mkdir -p /tmp/DROPZONE/install_results &&
+base_dir=$(pwd)'/'
 
+mkdir -p /tmp/DROPZONE/install_results &&
 
 {
 # perform updates before starting
@@ -25,15 +26,15 @@ apt update -y
 # perform installation of desired software 
 xargs -r -a packages.txt apt-get install -y
 wget "https://atom.io/download/deb" -O /tmp/DROPZONE/atom.deb && apt install /tmp/DROPZONE/atom.deb  # Atom Text Editor
-wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && apt install /tmp/DROPZONE/discord.deb  # Discord
+wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && apt install /tmp/DROPZONE/discord.deb -y # Discord
 wget "https://portswigger.net/burp/releases/download?product=community&version=2020.12.1&type=Linux" -O /tmp/DROPZONE/burpsuite.sh && chmod 744 /tmp/DROPZONE/burpsuite.sh && /tmp/DROPZONE/burpsuite.sh  # BurpSuite
-# wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && apt install /tmp/DROPZONE/bitwarden.deb  # Bitwarden
-apt-get remove docker docker-engine docker.io && apt install docker.io && systemctl start docker && systemctl enable docker  # Docker
+wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && apt install /tmp/DROPZONE/bitwarden.deb  # Bitwarden
+apt-get remove -y docker docker-engine docker.io && apt install docker.io -y && systemctl start docker && systemctl enable docker  # Docker
 
 # install vivaldi browser
 wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | apt-key add -
 apt install vivaldi-stable -y
-tar xvzf ./My-Vivaldi-settings.tar.gz -C ~
+tar xvzf ${base_dir}My-Vivaldi-settings.tar.gz -C ~
 
 # virtualization preparation
 systemctl start libvirtd && systemctl enable libvirtd
@@ -70,20 +71,20 @@ systemctl enable asus-fan-control
 asus-fan-control set-temps 51 55 65 68 71 74 77 80
 
 # install themes
-tar xvzf ./theme_files/icons/candy-icons.tar.xz -C /usr/share/icons
-tar xvzf ./theme_files/icons/oreo_spark_dark_cursors.tar.gz -C /usr/share/icons
-tar xvzf ./theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
+tar xvzf  ${base_dir}theme_files/icons/candy-icons.tar.xz -C /usr/share/icons
+tar xvzf  ${base_dir}theme_files/icons/oreo_spark_dark_cursors.tar.gz -C /usr/share/icons
+tar xvzf  ${base_dir}theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
 
 # clean up and adjust system settings
 localectl set-locale en_US.UTF-8
 apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y;
 apt autoremove -y
 updatedb
-cat ./add_to_bashrc.txt >> ~/.bashrc
+cat ${base_dir}add_to_bashrc.txt >> ~/.bashrc
 ln switch-mode.sh ~/switch
 mkdir -p ~/random
 mkdir -p ~/git_repos/public_tools
-cp atom-config-files/* ~/.atom/
+cp ${base_dir}atom-config-files/* ~/.atom/
 
 # Fix undetected headphone jack microphone (NOTE: Found Solution here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa)
 if { which "modprobe" > /dev/null; } && { cat /proc/asound/card*/codec* | grep Codec | grep "ALC23" > /dev/null; }; then
