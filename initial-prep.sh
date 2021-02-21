@@ -62,10 +62,7 @@ WantedBy=hybrid-sleep.target' > /etc/systemd/system/undervolt.service
 systemctl start undervolt && systemctl enable undervolt
 
 # install asus-fan-control and prequisites (gitpack)
-mkdir -p /tmp/gitpack/ && cd /tmp/gitpack/ && # prepare a temporary directory
-git clone https://github.com/dominiksalvet/gitpack.git ./ && # clone repository
-git checkout "$(git describe --tags --abbrev=0)" && # use latest version
-src/gitpack install github.com/dominiksalvet/gitpack # install GitPack
+wget -qO- https://raw.githubusercontent.com/dominiksalvet/gitpack/master/.install/initg.sh | sh  # install GitPack
 gitpack install github.com/dominiksalvet/asus-fan-control
 systemctl enable asus-fan-control
 asus-fan-control set-temps 51 55 65 68 71 74 77 80
