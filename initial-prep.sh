@@ -28,7 +28,7 @@ apt update -y
 # perform installation of desired software 
 echo "# Installing atom..."
 xargs -r -a packages.txt apt-get install -y
-wget "https://atom.io/download/deb" -O /tmp/DROPZONE/atom.deb && apt install /tmp/DROPZONE/atom.deb  # Atom Text Editor
+wget "https://atom.io/download/deb" -O /tmp/DROPZONE/atom.deb && apt install /tmp/DROPZONE/atom.deb && sudo -u $USER atom  # Atom Text Editor
 echo "# Installing Discord..."
 wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && apt install /tmp/DROPZONE/discord.deb -y  # Discord
 echo "# Installing Burpsuite..."
