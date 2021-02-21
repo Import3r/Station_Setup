@@ -18,6 +18,5 @@ xsensors
 gnome-tweaks
 gimp
 gparted
-bitwarden
 openvpn
 chromium-browser
