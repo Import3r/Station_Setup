@@ -75,9 +75,9 @@ systemctl enable asus-fan-control
 asus-fan-control set-temps 51 55 65 68 71 74 77 80
 
 # install themes
-tar xvzf  ${base_dir}theme_files/icons/candy-icons.tar.xz -C /usr/share/icons
+tar xvf  ${base_dir}theme_files/icons/candy-icons.tar.xz -C /usr/share/icons
 tar xvzf  ${base_dir}theme_files/icons/oreo_spark_purple_cursors.tar.gz -C /usr/share/icons
-tar xvzf  ${base_dir}theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
+tar xvf  ${base_dir}theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
 
 # clean up and adjust system settings
 localectl set-locale en_US.UTF-8
