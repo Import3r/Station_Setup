@@ -76,7 +76,7 @@ asus-fan-control set-temps 51 55 65 68 71 74 77 80
 
 # install themes
 tar xvzf  ${base_dir}theme_files/icons/candy-icons.tar.xz -C /usr/share/icons
-tar xvzf  ${base_dir}theme_files/icons/oreo_spark_dark_cursors.tar.gz -C /usr/share/icons
+tar xvzf  ${base_dir}theme_files/icons/oreo_spark_purple_cursors.tar.gz -C /usr/share/icons
 tar xvzf  ${base_dir}theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
 
 # clean up and adjust system settings
@@ -84,11 +84,11 @@ localectl set-locale en_US.UTF-8
 apt-get update -y && apt-get upgrade -y && apt-get dist-upgrade -y;
 apt autoremove -y
 updatedb
-cat ${base_dir}add_to_bashrc.txt >> ~/.bashrc
-ln switch-mode.sh ~/switch
-mkdir -p ~/random
-mkdir -p ~/git_repos/public_tools
-cp ${base_dir}atom-config-files/* ~/.atom/
+cat ${base_dir}add_to_bashrc.txt >> $HOME/.bashrc
+ln switch-mode.sh $HOME/switch
+mkdir -p $HOME/random
+mkdir -p $HOME/git_repos/public_tools
+cp ${base_dir}atom-config-files/* $HOME/.atom/
 
 # Fix undetected headphone jack microphone (NOTE: Found Solution here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa)
 if { which "modprobe" > /dev/null; } && { cat /proc/asound/card*/codec* | grep Codec | grep "ALC23" > /dev/null; }; then
