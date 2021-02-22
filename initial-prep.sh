@@ -1,6 +1,22 @@
 #!/bin/bash
 
 sudo echo
+# check if running as root
+if [ "$EUID" -eq 0 ]; then
+	echo "You are running as root (not recommended), the setup will be configured for the user 'root' only, are you sure you want to continue?"
+	echo "[y/n?]"
+	read choice
+	if [[ "${choice,,}" == "y" ]]; then
+		echo "proceeding"
+	elif [[ "${choice,,}" == "n" ]]; then
+		echo "Run again with desired user."
+		exit
+	else
+		echo "Not what I asked for. I dont have time for this shit :)"
+		exit
+	fi
+fi
+
 if [ ! -f "packages.txt" ]; then
 	echo -e "'packages.txt' is missing, please create it before running again.\n\nYou can add the packages you wish to install through 'apt' to the 'packages.txt' file, as shown:\n"
 	echo -e "package1_name\npackage2_name\n.\n.\n.\n"	
