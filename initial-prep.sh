@@ -27,7 +27,7 @@ base_dir=$(pwd)'/'
 mkdir -p /tmp/DROPZONE/install_results &&
 
 {
-echo "# Updating repos..."
+echo "\n# Updating repos...\n"
 # perform updates before starting
 sudo add-apt-repository universe
 sudo add-apt-repository multiverse
@@ -39,19 +39,19 @@ sudo add-apt-repository "deb https://repo.vivaldi.com/archive/deb/ stable main"
 sudo apt update -y
 
 # perform installation of desired software 
-echo "# Installing atom..."
+echo "\n# Installing atom...\n"
 sudo xargs -r -a packages.txt apt-get install -y
 wget "https://atom.io/download/deb" -O /tmp/DROPZONE/atom.deb && sudo apt install /tmp/DROPZONE/atom.deb && atom  # Atom Text Editor
-echo "# Installing Discord..."
+echo "\n# Installing Discord...\n"
 wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && sudo apt install /tmp/DROPZONE/discord.deb -y  # Discord
-echo "# Installing Burpsuite..."
+echo "\n# Installing Burpsuite...\n"
 wget "https://portswigger.net/burp/releases/download?product=community&version=2020.12.1&type=Linux" -O /tmp/DROPZONE/burpsuite.sh && chmod 755 /tmp/DROPZONE/burpsuite.sh && sudo /tmp/DROPZONE/burpsuite.sh  # BurpSuite
-echo "# Installing Bitwarden..."
+echo "\n# Installing Bitwarden...\n"
 wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && sudo apt install /tmp/DROPZONE/bitwarden.deb  # Bitwarden
-echo "# Installing Docker..."
+echo "\n# Installing Docker...\n"
 sudo apt-get remove -y docker* && sudo apt install docker.io -y && sudo systemctl start docker && sudo systemctl enable docker  # Docker
 
-echo "# Installing Vivaldi browser..."
+echo "\n# Installing Vivaldi browser...\n"
 # install vivaldi browser
 sudo apt install vivaldi-stable -y
 tar xvzf ${base_dir}My-Vivaldi-settings.tar.gz -C ~
