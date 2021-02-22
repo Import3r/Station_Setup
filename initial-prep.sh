@@ -61,7 +61,7 @@ sudo systemctl start libvirtd && sudo systemctl enable libvirtd
 
 # undervolting CPU and GPU
 sudo pip3 install undervolt
-sudo echo '[Unit]
+sudo $(echo '[Unit]
 Description=undervolt
 After=suspend.target
 After=hibernate.target
@@ -78,7 +78,7 @@ ExecStart=/usr/local/bin/undervolt -v --core -100 --cache -100 --gpu -70
 WantedBy=multi-user.target
 WantedBy=suspend.target
 WantedBy=hibernate.target
-WantedBy=hybrid-sleep.target' > /etc/systemd/system/undervolt.service
+WantedBy=hybrid-sleep.target' > /etc/systemd/system/undervolt.service)
 sudo systemctl start undervolt && sudo systemctl enable undervolt
 
 # install asus-fan-control and prequisites (gitpack)
@@ -105,7 +105,7 @@ cp ${base_dir}atom-config-files/* ~/.atom/
 
 # Fix undetected headphone jack microphone (NOTE: Found Solution here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa)
 if { which "modprobe" > /dev/null; } && { sudo cat /proc/asound/card*/codec* | grep Codec | grep "ALC23" > /dev/null; }; then
-	sudo echo "options snd-hda-intel model=dell-headset-multi" >> /etc/modprobe.d/alsa-base.conf
+	sudo $(echo "options snd-hda-intel model=dell-headset-multi" >> /etc/modprobe.d/alsa-base.conf)
 	mic_fix_state="modprobe installed and correct card identified. Fix was attempted. The following is the tail of 'alsa-base.conf' file:\n\n";
 	mic_fix_state+=$(tail /etc/modprobe.d/alsa-base.conf;)
 else 
