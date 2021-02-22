@@ -3,7 +3,6 @@ curl
 git
 mlocate
 python3-pip
-zoom-player
 thunderbird
 qemu
 qemu-kvm
