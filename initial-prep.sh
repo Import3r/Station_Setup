@@ -103,8 +103,7 @@ sudo apt autoremove -y
 sudo updatedb
 cat ${base_dir}add_to_bashrc.txt >> ~/.bashrc
 ln switch-mode.sh ~/switch
-mkdir -p ~/random
-mkdir -p ~/git_repos/public_tools
+mkdir -p ~/EXTRACTION
 cp ${base_dir}atom-config-files/* ~/.atom/
 
 # Fix undetected headphone jack microphone (NOTE: Found Solution here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa)
