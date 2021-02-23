@@ -86,11 +86,13 @@ WantedBy=hybrid-sleep.target' > /etc/systemd/system/undervolt.service"
 sudo systemctl daemon-reload && sudo systemctl enable undervolt.service && sudo systemctl start undervolt.service
 
 # disabling Intel turbo boost
+cp ${base_dir}turbo-boost.sh ~
+chmod 777 ~/turbo-boost.sh
 sudo bash -c "echo '[Unit]
 Description=runs a script on boot to disable intel turbo boost.
 
 [Service]
-ExecStart=/bin/bash /home/sigma/turbo-boost.sh disable
+ExecStart=/bin/bash ${HOME}/turbo-boost.sh disable
 
 [Install]
 WantedBy=multi-user.target' > /etc/systemd/system/turbo-boost.service"
