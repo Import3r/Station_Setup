@@ -39,6 +39,8 @@ sudo add-apt-repository "deb https://repo.vivaldi.com/archive/deb/ stable main"
 sudo apt update -y
 
 # perform installation of desired software 
+echo -e "\n# Installing Bitwarden...\n"
+wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && sudo apt install /tmp/DROPZONE/bitwarden.deb -y  # Bitwarden
 echo -e "\n# Installing atom...\n"
 sudo xargs -r -a packages.txt apt-get install -y
 wget "https://atom.io/download/deb" -O /tmp/DROPZONE/atom.deb && sudo apt install /tmp/DROPZONE/atom.deb -y && atom  # Atom Text Editor
@@ -46,8 +48,6 @@ echo -e "\n# Installing Discord...\n"
 wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && sudo apt install /tmp/DROPZONE/discord.deb -y  # Discord
 echo -e "\n# Installing Burpsuite...\n"
 wget "https://portswigger.net/burp/releases/download?product=community&version=2020.12.1&type=Linux" -O /tmp/DROPZONE/burpsuite.sh && chmod 755 /tmp/DROPZONE/burpsuite.sh && sudo /tmp/DROPZONE/burpsuite.sh  # BurpSuite
-echo -e "\n# Installing Bitwarden...\n"
-wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && sudo apt install /tmp/DROPZONE/bitwarden.deb -y  # Bitwarden
 echo -e "\n# Installing Zoom...\n"
 wget "https://zoom.us/client/latest/zoom_amd64.deb" -O /tmp/DROPZONE/zoom.deb && sudo apt install /tmp/DROPZONE/zoom.deb -y  # Zoom
 echo -e "\n# Installing Docker...\n"
