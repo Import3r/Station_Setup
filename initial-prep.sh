@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 
 sudo echo
 # check if running as root
@@ -83,7 +83,7 @@ WantedBy=multi-user.target
 WantedBy=suspend.target
 WantedBy=hibernate.target
 WantedBy=hybrid-sleep.target' > /etc/systemd/system/undervolt.service"
-sudo systemctl start undervolt && sudo systemctl enable undervolt
+sudo systemctl start undervolt && sudo systemctl daemon-reload && sudo systemctl enable undervolt.service
 
 # install asus-fan-control and prequisites (gitpack)
 wget -qO- https://raw.githubusercontent.com/dominiksalvet/gitpack/master/.install/initg.sh | sudo sh  # install GitPack
