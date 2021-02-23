@@ -5,7 +5,7 @@ sudo echo
 if [ "$EUID" -eq 0 ]; then
 	echo "You are running as root (not recommended), the setup will be configured for the user 'root' only, are you sure you want to continue?"
 	echo "[y/n?]"
-	read choice
+	read -r choice
 	if [[ "${choice,,}" == "y" ]]; then
 		echo "proceeding"
 	elif [[ "${choice,,}" == "n" ]]; then
@@ -27,7 +27,7 @@ base_dir=$(pwd)'/'
 mkdir -p /tmp/DROPZONE/install_results &&
 
 {
-echo "\n# Updating repos...\n"
+echo -e "\n# Updating repos...\n"
 # perform updates before starting
 sudo add-apt-repository universe
 sudo add-apt-repository multiverse
