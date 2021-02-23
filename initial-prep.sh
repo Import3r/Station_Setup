@@ -114,7 +114,7 @@ sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -
 sudo apt autoremove -y
 sudo updatedb
 cat ${base_dir}add_to_bashrc.txt >> ~/.bashrc
-ln switch-mode.sh ~/switch
+cp ${base_dir}switch-mode.sh ~/switch.sh && chmod 755 ~/switch.sh
 mkdir -p ~/EXTRACTION
 cp ${base_dir}atom-config-files/* ~/.atom/
 
