@@ -83,7 +83,18 @@ WantedBy=multi-user.target
 WantedBy=suspend.target
 WantedBy=hibernate.target
 WantedBy=hybrid-sleep.target' > /etc/systemd/system/undervolt.service"
-sudo systemctl start undervolt && sudo systemctl daemon-reload && sudo systemctl enable undervolt.service
+sudo systemctl daemon-reload && sudo systemctl enable undervolt.service && sudo systemctl start undervolt.service
+
+# disabling Intel turbo boost
+sudo bash -c "echo '[Unit]
+Description=runs a script on boot to disable intel turbo boost.
+
+[Service]
+ExecStart=/bin/bash /home/sigma/turbo-boost.sh disable
+
+[Install]
+WantedBy=multi-user.target' > /etc/systemd/system/turbo-boost.service"
+sudo systemctl daemon-reload && sudo systemctl enable turbo-boost.service && sudo systemctl start turbo-boost.service
 
 # install asus-fan-control and prequisites (gitpack)
 wget -qO- https://raw.githubusercontent.com/dominiksalvet/gitpack/master/.install/initg.sh | sudo sh  # install GitPack
