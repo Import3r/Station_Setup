@@ -1,4 +1,3 @@
 export PS1="\[\e[1;91m\][\[\e[m\]\[\e[1;92m\]\u\[\e[m\]\[\e[1;95m\]@\h\[\e[m\]\[\e[1;97m\] \W\[\e[m\]\[\e[1;91m\]]$ \[\e[m\]"
-export XCURSOR_THEME="Oreo_spark_purple_cursors"
 alias vpn="nohup sudo /usr/sbin/openvpn /home/sigma/mothership.ovpn & echo 'Connecting...' & { sleep 5 && echo -e \"\n\n\n\" && curl https://api.myip.com && echo; }"
 alias die="sudo /usr/bin/killall -9 openvpn"
