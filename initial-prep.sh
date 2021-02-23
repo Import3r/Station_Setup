@@ -43,7 +43,7 @@ echo -e "\n# Installing Bitwarden...\n"
 wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && sudo apt install /tmp/DROPZONE/bitwarden.deb -y  # Bitwarden
 echo -e "\n# Installing atom...\n"
 sudo xargs -r -a packages.txt apt-get install -y
-wget "https://atom.io/download/deb" -O /tmp/DROPZONE/atom.deb && sudo apt install /tmp/DROPZONE/atom.deb -y && atom  # Atom Text Editor
+wget "https://atom.io/download/deb" -O /tmp/DROPZONE/atom.deb && sudo apt install /tmp/DROPZONE/atom.deb -y; [[ $? -eq 0 ]] && atom & # Atom Text Editor
 echo -e "\n# Installing Discord...\n"
 wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && sudo apt install /tmp/DROPZONE/discord.deb -y  # Discord
 echo -e "\n# Installing Burpsuite...\n"
