@@ -107,14 +107,13 @@ sudo tar xvzf  ${base_dir}theme_files/icons/oreo_spark_purple_cursors.tar.gz -C 
 sudo tar xvf  ${base_dir}theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
 
 # clean up and adjust system settings
-localectl set-locale en_US.UTF-8
 sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y;
 sudo apt autoremove -y
 sudo updatedb
-cat ${base_dir}add_to_bashrc.txt >> ~/.bashrc
-cp ${base_dir}switch-mode.sh ~/switch.sh && chmod 755 ~/switch.sh
+cat ${base_dir}add_to_bashrc.txt >> ~/.bashrc  # modify .bashrc as pleased
+cp ${base_dir}switch-mode.sh ~/switch.sh && chmod 755 ~/switch.sh  # switch-mode script installation
+cp ${base_dir}atom-config-files/* ~/.atom/ && apm install --packages-file ~/.atom/package.list  # atom configuration files installation 
 mkdir -p ~/EXTRACTION
-cp ${base_dir}atom-config-files/* ~/.atom/
 
 # Fix undetected headphone jack microphone (NOTE: Found Solution here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa)
 if { which "modprobe" > /dev/null; } && { sudo cat /proc/asound/card*/codec* | grep Codec | grep "ALC23" > /dev/null; }; then
