@@ -56,7 +56,7 @@ sudo apt-get remove -y docker* && sudo apt install docker.io -y && sudo systemct
 echo -e "\n# Installing Vivaldi browser...\n"
 # install vivaldi browser
 sudo apt install vivaldi-stable -y
-tar xvzf ${base_dir}My-Vivaldi-settings.tar.gz -C ~
+tar xvzf "${base_dir}"My-Vivaldi-settings.tar.gz -C ~
 
 # virtualization preparation
 sudo systemctl start libvirtd && sudo systemctl enable libvirtd
@@ -84,7 +84,7 @@ WantedBy=hybrid-sleep.target' > /etc/systemd/system/undervolt.service"
 sudo systemctl daemon-reload && sudo systemctl enable undervolt.service && sudo systemctl start undervolt.service
 
 # disabling Intel turbo boost
-sudo cp ${base_dir}turbo-boost.sh /root && sudo chown root /root/turbo-boost.sh && sudo chmod u+x /root/turbo-boost.sh
+sudo cp "${base_dir}"turbo-boost.sh /root && sudo chown root /root/turbo-boost.sh && sudo chmod u+x /root/turbo-boost.sh
 sudo bash -c "echo '[Unit]
 Description=runs a script on boot to disable intel turbo boost.
 
@@ -102,17 +102,17 @@ sudo systemctl enable afc.service
 sudo asus-fan-control set-temps 51 55 65 68 71 74 77 80
 
 # install themes
-sudo tar xvf  ${base_dir}theme_files/icons/candy-icons.tar.xz -C /usr/share/icons
-sudo tar xvzf  ${base_dir}theme_files/icons/oreo_spark_purple_cursors.tar.gz -C /usr/share/icons
-sudo tar xvf  ${base_dir}theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
+sudo tar xvf  "${base_dir}"theme_files/icons/candy-icons.tar.xz -C /usr/share/icons
+sudo tar xvzf  "${base_dir}"theme_files/icons/oreo_spark_purple_cursors.tar.gz -C /usr/share/icons
+sudo tar xvf  "${base_dir}"theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
 
 # clean up and adjust system settings
 sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y;
 sudo apt autoremove -y
 sudo updatedb
-cat ${base_dir}add_to_bashrc.txt >> ~/.bashrc  # modify .bashrc as pleased
-cp ${base_dir}switch-mode.sh ~/switch.sh && chmod 755 ~/switch.sh  # switch-mode script installation
-cp ${base_dir}atom-config-files/* ~/.atom/ && apm install --packages-file ~/.atom/package.list  # atom configuration files installation 
+cat "${base_dir}"add_to_bashrc.txt >> ~/.bashrc  # modify .bashrc as pleased
+cp "${base_dir}"switch-mode.sh ~/switch.sh && chmod 755 ~/switch.sh  # switch-mode script installation
+cp "${base_dir}"atom-config-files/* ~/.atom/ && apm install --packages-file ~/.atom/package.list  # atom configuration files installation 
 mkdir -p ~/EXTRACTION
 
 # Fix undetected headphone jack microphone (NOTE: Found Solution here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa)
