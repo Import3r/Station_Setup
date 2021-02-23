@@ -99,7 +99,7 @@ sudo systemctl daemon-reload && sudo systemctl enable turbo-boost.service && sud
 # install asus-fan-control and prequisites (gitpack)
 wget -qO- https://raw.githubusercontent.com/dominiksalvet/gitpack/master/.install/initg.sh | sudo sh  # install GitPack
 sudo gitpack install github.com/dominiksalvet/asus-fan-control
-sudo systemctl enable asus-fan-control
+sudo systemctl enable afc.service
 sudo asus-fan-control set-temps 51 55 65 68 71 74 77 80
 
 # install themes
