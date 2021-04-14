@@ -41,9 +41,7 @@ sudo apt update -y
 # perform installation of desired software 
 echo -e "\n# Installing Bitwarden...\n"
 wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && sudo apt install /tmp/DROPZONE/bitwarden.deb -y  # Bitwarden
-echo -e "\n# Installing atom...\n"
 sudo xargs -r -a packages.txt apt-get install -y
-wget "https://atom.io/download/deb" -O /tmp/DROPZONE/atom.deb && sudo apt install /tmp/DROPZONE/atom.deb -y; [[ $? -eq 0 ]] && atom & # Atom Text Editor
 echo -e "\n# Installing Discord...\n"
 wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && sudo apt install /tmp/DROPZONE/discord.deb -y  # Discord
 echo -e "\n# Installing Burpsuite...\n"
@@ -112,7 +110,6 @@ sudo apt autoremove -y
 sudo updatedb
 cat "${base_dir}"add_to_bashrc.txt >> ~/.bashrc  # modify .bashrc as pleased
 cp "${base_dir}"switch-mode.sh ~/switch.sh && chmod 755 ~/switch.sh  # switch-mode script installation
-cp "${base_dir}"atom-config-files/* ~/.atom/ && apm install --packages-file ~/.atom/package.list  # atom configuration files installation 
 mkdir -p ~/EXTRACTION
 
 # Fix undetected headphone jack microphone (NOTE: Found Solution here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa)
