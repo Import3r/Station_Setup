@@ -4,12 +4,6 @@ git
 mlocate
 python3-pip
 thunderbird
-qemu
-qemu-kvm
-libvirt-daemon
-bridge-utils
-virt-manager
-virtinst
 net-tools
 gnupg2
 xorg

@@ -56,9 +56,6 @@ echo -e "\n# Installing Vivaldi browser...\n"
 sudo apt install vivaldi-stable -y
 '''tar xvzf "${base_dir}"My-Vivaldi-settings.tar.gz -C ~'''
 
-# virtualization preparation
-sudo systemctl start libvirtd && sudo systemctl enable libvirtd
-
 # undervolting CPU and GPU
 sudo pip3 install undervolt
 sudo bash -c "echo '[Unit]
