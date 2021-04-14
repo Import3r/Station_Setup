@@ -54,7 +54,7 @@ sudo apt-get remove -y docker* && sudo apt install docker.io -y && sudo systemct
 echo -e "\n# Installing Vivaldi browser...\n"
 # install vivaldi browser
 sudo apt install vivaldi-stable -y
-tar xvzf "${base_dir}"My-Vivaldi-settings.tar.gz -C ~
+'''tar xvzf "${base_dir}"My-Vivaldi-settings.tar.gz -C ~'''
 
 # virtualization preparation
 sudo systemctl start libvirtd && sudo systemctl enable libvirtd
