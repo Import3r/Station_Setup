@@ -93,24 +93,7 @@ install_vscode_ppa
 
 # undervolting CPU and GPU
 sudo pip3 install undervolt
-sudo bash -c "echo '[Unit]
-Description=undervolt
-After=suspend.target
-After=hibernate.target
-After=hybrid-sleep.target
-
-[Service]
-Type=oneshot
-# If you have installed undervolt globally (via sudo pip install):
-ExecStart=/usr/local/bin/undervolt -v --core -100 --cache -100 --gpu -70
-# If you want to run from source:
-# ExecStart=/path/to/undervolt.py -v --core -100 --cache -100 --gpu -70
-
-[Install]
-WantedBy=multi-user.target
-WantedBy=suspend.target
-WantedBy=hibernate.target
-WantedBy=hybrid-sleep.target' > /etc/systemd/system/undervolt.service"
+sudo cp "${base_dir}"undervolt.service /etc/systemd/system/undervolt.service
 sudo systemctl daemon-reload && sudo systemctl enable undervolt.service && sudo systemctl start undervolt.service
 
 # disabling Intel turbo boost
