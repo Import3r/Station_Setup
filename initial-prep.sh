@@ -3,27 +3,27 @@
 base_dir=$(pwd)'/'
 
 
-install_bitwarden () {
+install_bitwarden_deb () {
 	echo -e "\n# Installing Bitwarden...\n"
 	wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && sudo apt install /tmp/DROPZONE/bitwarden.deb -y
 }
 
-install_discord () {
+install_discord_deb () {
 	echo -e "\n# Installing Discord...\n"
 	wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && sudo apt install /tmp/DROPZONE/discord.deb -y  # Discord
 }
 
-install_burpsuite () {
+install_burpsuite_sh () {
 	echo -e "\n# Installing Burpsuite...\n"
 	wget "https://portswigger.net/burp/releases/download?product=community&version=2020.12.1&type=Linux" -O /tmp/DROPZONE/burpsuite.sh && chmod 755 /tmp/DROPZONE/burpsuite.sh && sudo /tmp/DROPZONE/burpsuite.sh  # BurpSuite
 }
 
-install_zoom () {
+install_zoom_deb () {
 	echo -e "\n# Installing Zoom...\n"
 	wget "https://zoom.us/client/latest/zoom_amd64.deb" -O /tmp/DROPZONE/zoom.deb && sudo apt install /tmp/DROPZONE/zoom.deb -y  # Zoom
 }
 
-install_docker () {
+install_docker_apt () {
 	echo -e "\n# Installing Docker...\n"
 	sudo apt-get remove -y docker* && sudo apt install docker.io -y && sudo systemctl start docker && sudo systemctl enable docker  # Docker
 }
@@ -123,11 +123,11 @@ sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -
 sudo xargs -r -a packages.txt apt-get install -y
 
 # install desired .deb packages
-install_bitwarden
-install_discord
-install_burpsuite
-install_zoom
-install_docker
+install_bitwarden_deb
+install_discord_deb
+install_burpsuite_sh
+install_zoom_deb
+install_docker_apt
 
 # add and install ppa repositories
 install_vivaldi_ppa
