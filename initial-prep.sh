@@ -43,6 +43,10 @@ install_vscode_ppa () {
 	sudo apt update && sudo apt install code -y
 }
 
+install_gitpack () {
+	wget -qO- https://raw.githubusercontent.com/dominiksalvet/gitpack/master/.install/initg.sh | sudo sh
+}
+
 sudo echo  # prompt for sudo-password
 
 # check if running as root
@@ -100,7 +104,7 @@ sudo systemctl daemon-reload && sudo systemctl enable undervolt.service && sudo 
 sudo cp "${base_dir}"turbo-boost.sh /root && sudo chown root /root/turbo-boost.sh && sudo chmod u+x /root/turbo-boost.sh
 
 # install asus-fan-control and prequisites (gitpack)
-wget -qO- https://raw.githubusercontent.com/dominiksalvet/gitpack/master/.install/initg.sh | sudo sh  # install GitPack
+install_gitpack
 sudo gitpack install github.com/dominiksalvet/asus-fan-control
 sudo systemctl enable afc.service
 sudo asus-fan-control set-temps 51 55 65 68 71 74 77 80
