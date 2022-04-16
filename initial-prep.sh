@@ -33,10 +33,13 @@ sudo add-apt-repository universe
 sudo add-apt-repository multiverse
 sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y;
 
-# add PPA repositories
-wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | sudo apt-key add -
-sudo add-apt-repository "deb https://repo.vivaldi.com/archive/deb/ stable main"
-sudo apt update -y
+echo -e "\n# Installing Vivaldi browser...\n"
+# install vivaldi browser
+wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | gpg --dearmor > packages.vivaldi.gpg
+sudo install -o root -g root -m 644 packages.vivaldi.gpg /etc/apt/trusted.gpg.d
+sudo sh -c 'echo "deb [arch=amd64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.vivaldi.gpg] https://repo.vivaldi.com/archive/deb stable main" > /etc/apt/sources.list.d/vivaldi.list' 
+rm -f packages.vivaldi.gpg
+sudo apt update && sudo apt install vivaldi-stable -y
 
 # perform installation of desired software 
 echo -e "\n# Installing Bitwarden...\n"
@@ -50,11 +53,6 @@ echo -e "\n# Installing Zoom...\n"
 wget "https://zoom.us/client/latest/zoom_amd64.deb" -O /tmp/DROPZONE/zoom.deb && sudo apt install /tmp/DROPZONE/zoom.deb -y  # Zoom
 echo -e "\n# Installing Docker...\n"
 sudo apt-get remove -y docker* && sudo apt install docker.io -y && sudo systemctl start docker && sudo systemctl enable docker  # Docker
-
-echo -e "\n# Installing Vivaldi browser...\n"
-# install vivaldi browser
-sudo apt install vivaldi-stable -y
-'''tar xvzf "${base_dir}"My-Vivaldi-settings.tar.gz -C ~'''
 
 # undervolting CPU and GPU
 sudo pip3 install undervolt
