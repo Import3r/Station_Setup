@@ -25,6 +25,24 @@ install_docker () {
 	sudo apt-get remove -y docker* && sudo apt install docker.io -y && sudo systemctl start docker && sudo systemctl enable docker  # Docker
 }
 
+install_vivaldi_ppa () {
+	echo -e "\n# Installing Vivaldi browser...\n"
+	wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | gpg --dearmor > packages.vivaldi.gpg
+	sudo install -o root -g root -m 644 packages.vivaldi.gpg /etc/apt/trusted.gpg.d
+	sudo sh -c 'echo "deb [arch=amd64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.vivaldi.gpg] https://repo.vivaldi.com/archive/deb stable main" > /etc/apt/sources.list.d/vivaldi.list' 
+	rm -f packages.vivaldi.gpg
+	sudo apt update && sudo apt install vivaldi-stable -y
+}
+
+install_vscode_ppa () {
+	echo -e "\n# Installing VSCode browser...\n"
+	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+	sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+	sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+	rm -f packages.microsoft.gpg
+	sudo apt update && sudo apt install code -y
+}
+
 sudo echo  # prompt for sudo-password
 
 # check if running as root
@@ -70,22 +88,8 @@ install_zoom
 install_docker
 
 # add and install ppa repositories
-
-# install vivaldi browser
-echo -e "\n# Installing Vivaldi browser...\n"
-wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | gpg --dearmor > packages.vivaldi.gpg
-sudo install -o root -g root -m 644 packages.vivaldi.gpg /etc/apt/trusted.gpg.d
-sudo sh -c 'echo "deb [arch=amd64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.vivaldi.gpg] https://repo.vivaldi.com/archive/deb stable main" > /etc/apt/sources.list.d/vivaldi.list' 
-rm -f packages.vivaldi.gpg
-sudo apt update && sudo apt install vivaldi-stable -y
-
-# install VSCode text editor
-echo -e "\n# Installing VSCode browser...\n"
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
-sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-rm -f packages.microsoft.gpg
-sudo apt update && sudo apt install code -y
+install_vivaldi_ppa
+install_vscode_ppa
 
 # undervolting CPU and GPU
 sudo pip3 install undervolt
