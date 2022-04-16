@@ -62,6 +62,13 @@ sudo sh -c 'echo "deb [arch=amd64,armhf signed-by=/etc/apt/trusted.gpg.d/package
 rm -f packages.vivaldi.gpg
 sudo apt update && sudo apt install vivaldi-stable -y
 
+# install VSCode text editor
+echo -e "\n# Installing VSCode browser...\n"
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+rm -f packages.microsoft.gpg
+sudo apt update && sudo apt install code -y
 
 # undervolting CPU and GPU
 sudo pip3 install undervolt
@@ -100,12 +107,10 @@ sudo tar xvzf  "${base_dir}"theme_files/icons/oreo_spark_purple_cursors.tar.gz -
 sudo tar xvf  "${base_dir}"theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
 
 # clean up and adjust system settings
-sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y;
-sudo apt autoremove -y
+sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt autoremove -y
 sudo updatedb
 cat "${base_dir}"add_to_bashrc.txt >> ~/.bashrc  # modify .bashrc as pleased
-cp "${base_dir}"switch-mode.sh ~/switch.sh && chmod 755 ~/switch.sh  # switch-mode script installation
-mkdir -p ~/EXTRACTION
+cp "${base_dir}"switch-mode.sh ~/Desktop/switch.sh && chmod 755 ~/Desktop/switch.sh  # switch-mode script installation
 
 # Fix undetected headphone jack microphone (NOTE: Found Solution here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa)
 if { which "modprobe" > /dev/null; } && { sudo cat /proc/asound/card*/codec* | grep Codec | grep "ALC23" > /dev/null; }; then
