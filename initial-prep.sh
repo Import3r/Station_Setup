@@ -33,26 +33,35 @@ sudo add-apt-repository universe
 sudo add-apt-repository multiverse
 sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y;
 
-echo -e "\n# Installing Vivaldi browser...\n"
+# install desired apt packages 
+sudo xargs -r -a packages.txt apt-get install -y
+
+# install desired .deb packages
+echo -e "\n# Installing Bitwarden...\n"
+wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && sudo apt install /tmp/DROPZONE/bitwarden.deb -y  # Bitwarden
+
+echo -e "\n# Installing Discord...\n"
+wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && sudo apt install /tmp/DROPZONE/discord.deb -y  # Discord
+
+echo -e "\n# Installing Burpsuite...\n"
+wget "https://portswigger.net/burp/releases/download?product=community&version=2020.12.1&type=Linux" -O /tmp/DROPZONE/burpsuite.sh && chmod 755 /tmp/DROPZONE/burpsuite.sh && sudo /tmp/DROPZONE/burpsuite.sh  # BurpSuite
+
+echo -e "\n# Installing Zoom...\n"
+wget "https://zoom.us/client/latest/zoom_amd64.deb" -O /tmp/DROPZONE/zoom.deb && sudo apt install /tmp/DROPZONE/zoom.deb -y  # Zoom
+
+echo -e "\n# Installing Docker...\n"
+sudo apt-get remove -y docker* && sudo apt install docker.io -y && sudo systemctl start docker && sudo systemctl enable docker  # Docker
+
+# add and install ppa repositories
+
 # install vivaldi browser
+echo -e "\n# Installing Vivaldi browser...\n"
 wget -qO- https://repo.vivaldi.com/archive/linux_signing_key.pub | gpg --dearmor > packages.vivaldi.gpg
 sudo install -o root -g root -m 644 packages.vivaldi.gpg /etc/apt/trusted.gpg.d
 sudo sh -c 'echo "deb [arch=amd64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.vivaldi.gpg] https://repo.vivaldi.com/archive/deb stable main" > /etc/apt/sources.list.d/vivaldi.list' 
 rm -f packages.vivaldi.gpg
 sudo apt update && sudo apt install vivaldi-stable -y
 
-# perform installation of desired software 
-echo -e "\n# Installing Bitwarden...\n"
-wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && sudo apt install /tmp/DROPZONE/bitwarden.deb -y  # Bitwarden
-sudo xargs -r -a packages.txt apt-get install -y
-echo -e "\n# Installing Discord...\n"
-wget "https://discord.com/api/download?platform=linux&format=deb" -O /tmp/DROPZONE/discord.deb && sudo apt install /tmp/DROPZONE/discord.deb -y  # Discord
-echo -e "\n# Installing Burpsuite...\n"
-wget "https://portswigger.net/burp/releases/download?product=community&version=2020.12.1&type=Linux" -O /tmp/DROPZONE/burpsuite.sh && chmod 755 /tmp/DROPZONE/burpsuite.sh && sudo /tmp/DROPZONE/burpsuite.sh  # BurpSuite
-echo -e "\n# Installing Zoom...\n"
-wget "https://zoom.us/client/latest/zoom_amd64.deb" -O /tmp/DROPZONE/zoom.deb && sudo apt install /tmp/DROPZONE/zoom.deb -y  # Zoom
-echo -e "\n# Installing Docker...\n"
-sudo apt-get remove -y docker* && sudo apt install docker.io -y && sudo systemctl start docker && sudo systemctl enable docker  # Docker
 
 # undervolting CPU and GPU
 sudo pip3 install undervolt
