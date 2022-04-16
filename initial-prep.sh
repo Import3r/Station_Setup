@@ -1,6 +1,7 @@
 #! /bin/bash
 
-sudo echo
+sudo echo  # prompt for sudo-password
+
 # check if running as root
 if [ "$EUID" -eq 0 ]; then
 	echo "You are running as root (not recommended), the setup will be configured for the user 'root' only, are you sure you want to continue?"
