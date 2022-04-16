@@ -1,4 +1,6 @@
 vim
+wget
+gpg
 curl
 git
 mlocate
