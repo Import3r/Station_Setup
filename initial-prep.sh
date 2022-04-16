@@ -87,6 +87,44 @@ apply_modprob_fix () {
 	fi
 }
 
+run_installation_routine () {
+	# perform updates before starting
+	echo -e "\n# Updating repos...\n"
+	sudo add-apt-repository universe && sudo add-apt-repository multiverse
+	sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y;
+
+	# install desired apt packages
+	sudo xargs -r -a packages.txt apt-get install -y
+
+	# install desired .deb packages
+	install_bitwarden_deb
+	install_discord_deb
+	install_burpsuite_sh
+	install_zoom_deb
+	install_docker_apt
+
+	# add and install ppa repositories
+	install_vivaldi_ppa
+	install_vscode_ppa
+
+	# apply fixes and tweaks
+	apply_undervolting
+	disable_intel_turbo_boost
+	apply_fan_noise_fix
+	apply_modprob_fix
+
+	# install themes
+	sudo tar xvf "${base_dir}"theme_files/icons/candy-icons.tar.xz -C /usr/share/icons
+	sudo tar xvzf "${base_dir}"theme_files/icons/oreo_spark_purple_cursors.tar.gz -C /usr/share/icons
+	sudo tar xvf "${base_dir}"theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
+
+	# clean up and adjust system settings
+	cat "${base_dir}"add_to_bashrc.txt >> ~/.bashrc  # modify .bashrc
+	cp "${base_dir}"switch-mode.sh ~/Desktop/switch.sh && chmod 755 ~/Desktop/switch.sh  # switch-mode script installation
+	sudo apt autoremove -y
+	sudo updatedb
+}
+
 sudo echo  # prompt for sudo-password
 
 # check if running as root
@@ -107,52 +145,12 @@ fi
 
 if [ ! -f "packages.txt" ]; then
 	echo -e "'packages.txt' is missing, please create it before running again.\n\nYou can add the packages you wish to install through 'apt' to the 'packages.txt' file, as shown:\n"
-	echo -e "package1_name\npackage2_name\n.\n.\n.\n"	
+	echo -e "package1_name\npackage2_name\n.\n.\n.\n"
 fi
 
+sudo rm /tmp/DROPZONE/ -rf && mkdir -p /tmp/DROPZONE/install_results && { run_installation_routine 2>> /tmp/DROPZONE/install_results/errors; }
 
-mkdir -p /tmp/DROPZONE/install_results &&
-
-{
-echo -e "\n# Updating repos...\n"
-# perform updates before starting
-sudo add-apt-repository universe && sudo add-apt-repository multiverse
-sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y;
-
-# install desired apt packages 
-sudo xargs -r -a packages.txt apt-get install -y
-
-# install desired .deb packages
-install_bitwarden_deb
-install_discord_deb
-install_burpsuite_sh
-install_zoom_deb
-install_docker_apt
-
-# add and install ppa repositories
-install_vivaldi_ppa
-install_vscode_ppa
-
-# apply fixes and tweaks
-apply_undervolting
-disable_intel_turbo_boost
-apply_fan_noise_fix
-apply_modprob_fix
-
-# install themes
-sudo tar xvf "${base_dir}"theme_files/icons/candy-icons.tar.xz -C /usr/share/icons
-sudo tar xvzf "${base_dir}"theme_files/icons/oreo_spark_purple_cursors.tar.gz -C /usr/share/icons
-sudo tar xvf "${base_dir}"theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
-
-# clean up and adjust system settings
-cat "${base_dir}"add_to_bashrc.txt >> ~/.bashrc  # modify .bashrc
-cp "${base_dir}"switch-mode.sh ~/Desktop/switch.sh && chmod 755 ~/Desktop/switch.sh  # switch-mode script installation
-sudo apt autoremove -y
-sudo updatedb
-
-echo; } 2>> /tmp/DROPZONE/install_results/errors
-
-# show errors (if any)
+# print the errors (if any)
 echo -e "\n\n\n***** ERRORS ENCOUNTERED *****\n\n\n"
 cat /tmp/DROPZONE/install_results/errors
 
