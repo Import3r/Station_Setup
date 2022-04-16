@@ -127,7 +127,7 @@ run_installation_routine () {
 
 sudo echo  # prompt for sudo-password
 
-# check if running as root
+# warn if running as root
 if [ "$EUID" -eq 0 ]; then
 	echo "You are running as root (not recommended), the setup will be configured for the user 'root' only, are you sure you want to continue?"
 	echo "[y/n?]"
@@ -143,12 +143,15 @@ if [ "$EUID" -eq 0 ]; then
 	fi
 fi
 
+# check packages.txt exists
 if [ ! -f "packages.txt" ]; then
 	echo -e "'packages.txt' is missing, please create it before running again.\n\nYou can add the packages you wish to install through 'apt' to the 'packages.txt' file, as shown:\n"
 	echo -e "package1_name\npackage2_name\n.\n.\n.\n"
 fi
 
-sudo rm /tmp/DROPZONE/ -rf && mkdir -p /tmp/DROPZONE/install_results && { run_installation_routine 2>> /tmp/DROPZONE/install_results/errors; }
+sudo rm /tmp/DROPZONE/ -rf && mkdir -p /tmp/DROPZONE/install_results
+
+run_installation_routine 2>> /tmp/DROPZONE/install_results/errors
 
 # print the errors (if any)
 echo -e "\n\n\n***** ERRORS ENCOUNTERED *****\n\n\n"
