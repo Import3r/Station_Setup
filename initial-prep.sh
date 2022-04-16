@@ -1,5 +1,8 @@
 #! /bin/bash
 
+base_dir=$(pwd)'/'
+
+
 install_bitwarden () {
 	echo -e "\n# Installing Bitwarden...\n"
 	wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && sudo apt install /tmp/DROPZONE/bitwarden.deb -y
@@ -47,6 +50,43 @@ install_gitpack () {
 	wget -qO- https://raw.githubusercontent.com/dominiksalvet/gitpack/master/.install/initg.sh | sudo sh
 }
 
+apply_undervolting () {
+	# undervolting the CPU and GPU using "undervolt"
+	sudo pip3 install undervolt
+	sudo cp "${base_dir}"undervolt.service /etc/systemd/system/undervolt.service
+	sudo systemctl daemon-reload && sudo systemctl enable undervolt.service && sudo systemctl start undervolt.service
+}
+
+disable_intel_turbo_boost (){
+	# disable the intel turbo boost technology that leads to CPU spikes
+	sudo cp "${base_dir}"turbo-boost.sh /root && sudo chown root /root/turbo-boost.sh && sudo chmod u+x /root/turbo-boost.sh
+}
+
+apply_fan_noise_fix () {
+	# fix fan noise using asus-fan-control
+	install_gitpack
+	sudo gitpack install github.com/dominiksalvet/asus-fan-control
+	sudo systemctl enable afc.service
+	sudo asus-fan-control set-temps 51 55 65 68 71 74 77 80
+}
+
+is_modprob_fix_possible () {
+	which "modprobe" > /dev/null && sudo cat /proc/asound/card*/codec* | grep Codec | grep "ALC23" > /dev/null;
+}
+
+apply_modprob_fix () {
+	# fix undetected headphone jack microphone
+	# found fix here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa
+	is_modprob_fix_possible
+	if [[ $? -eq 0 ]]; then
+		sudo bash -c 'echo "options snd-hda-intel model=dell-headset-multi" >> /etc/modprobe.d/alsa-base.conf'
+		mic_fix_state="modprobe installed and correct card identified. Fix was attempted. The following is the tail of 'alsa-base.conf' file:\n\n";
+		mic_fix_state+=$(tail /etc/modprobe.d/alsa-base.conf)
+	else
+		mic_fix_state="ERROR: either modprobe was not found or the device has incompatible sound card. Fix was not applied.";
+	fi
+}
+
 sudo echo  # prompt for sudo-password
 
 # check if running as root
@@ -70,15 +110,13 @@ if [ ! -f "packages.txt" ]; then
 	echo -e "package1_name\npackage2_name\n.\n.\n.\n"	
 fi
 
-base_dir=$(pwd)'/'
 
 mkdir -p /tmp/DROPZONE/install_results &&
 
 {
 echo -e "\n# Updating repos...\n"
 # perform updates before starting
-sudo add-apt-repository universe
-sudo add-apt-repository multiverse
+sudo add-apt-repository universe && sudo add-apt-repository multiverse
 sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y;
 
 # install desired apt packages 
@@ -95,47 +133,33 @@ install_docker
 install_vivaldi_ppa
 install_vscode_ppa
 
-# undervolting CPU and GPU
-sudo pip3 install undervolt
-sudo cp "${base_dir}"undervolt.service /etc/systemd/system/undervolt.service
-sudo systemctl daemon-reload && sudo systemctl enable undervolt.service && sudo systemctl start undervolt.service
-
-# disabling Intel turbo boost
-sudo cp "${base_dir}"turbo-boost.sh /root && sudo chown root /root/turbo-boost.sh && sudo chmod u+x /root/turbo-boost.sh
-
-# install asus-fan-control and prequisites (gitpack)
-install_gitpack
-sudo gitpack install github.com/dominiksalvet/asus-fan-control
-sudo systemctl enable afc.service
-sudo asus-fan-control set-temps 51 55 65 68 71 74 77 80
+# apply fixes and tweaks
+apply_undervolting
+disable_intel_turbo_boost
+apply_fan_noise_fix
+apply_modprob_fix
 
 # install themes
-sudo tar xvf  "${base_dir}"theme_files/icons/candy-icons.tar.xz -C /usr/share/icons
-sudo tar xvzf  "${base_dir}"theme_files/icons/oreo_spark_purple_cursors.tar.gz -C /usr/share/icons
-sudo tar xvf  "${base_dir}"theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
+sudo tar xvf "${base_dir}"theme_files/icons/candy-icons.tar.xz -C /usr/share/icons
+sudo tar xvzf "${base_dir}"theme_files/icons/oreo_spark_purple_cursors.tar.gz -C /usr/share/icons
+sudo tar xvf "${base_dir}"theme_files/themes/Sweet-Dark.tar.xz -C /usr/share/themes
 
 # clean up and adjust system settings
-sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && sudo apt autoremove -y
-sudo updatedb
-cat "${base_dir}"add_to_bashrc.txt >> ~/.bashrc  # modify .bashrc as pleased
+cat "${base_dir}"add_to_bashrc.txt >> ~/.bashrc  # modify .bashrc
 cp "${base_dir}"switch-mode.sh ~/Desktop/switch.sh && chmod 755 ~/Desktop/switch.sh  # switch-mode script installation
-
-# Fix undetected headphone jack microphone (NOTE: Found Solution here: https://superuser.com/questions/1312970/headset-microphone-not-detected-by-pulse-und-alsa)
-if { which "modprobe" > /dev/null; } && { sudo cat /proc/asound/card*/codec* | grep Codec | grep "ALC23" > /dev/null; }; then
-	sudo bash -c 'echo "options snd-hda-intel model=dell-headset-multi" >> /etc/modprobe.d/alsa-base.conf'
-	mic_fix_state="modprobe installed and correct card identified. Fix was attempted. The following is the tail of 'alsa-base.conf' file:\n\n";
-	mic_fix_state+=$(tail /etc/modprobe.d/alsa-base.conf)
-else 
-	mic_fix_state="ERROR: either modprobe was not found or the device has incompatible sound card. Fix was not applied.";
-fi
+sudo apt autoremove -y
+sudo updatedb
 
 echo; } 2>> /tmp/DROPZONE/install_results/errors
 
+# show errors (if any)
 echo -e "\n\n\n***** ERRORS ENCOUNTERED *****\n\n\n"
 cat /tmp/DROPZONE/install_results/errors
 
+# show undervolt stats
 echo -e "\n\n\n***** UNDERVOLTING STATUS *****\n\n\n"
 sudo undervolt --read
 
+# show headphone jack state
 echo -e "\n\n\n***** HEADPHONE JACK MICROPHONE FIX *****\n\n\n"
 echo -e "${mic_fix_state}\n\n"
