@@ -3,6 +3,48 @@
 base_dir=$(pwd)'/'
 
 
+main() {
+	sudo echo  # prompt for sudo-password
+
+	# warn if running as root
+	if [ "$EUID" -eq 0 ]; then
+		echo "You are running as root (not recommended), the setup will be configured for the user 'root' only, are you sure you want to continue?"
+		echo "[y/n?]"
+		read -r choice
+		if [[ "${choice,,}" == "y" ]]; then
+			echo "proceeding"
+		elif [[ "${choice,,}" == "n" ]]; then
+			echo "Run again with desired user."
+			exit
+		else
+			echo "Not what I asked for. I dont have time for this shit :)"
+			exit
+		fi
+	fi
+
+	# check packages.txt exists
+	if [ ! -f "packages.txt" ]; then
+		echo -e "'packages.txt' is missing, please create it before running again.\n\nYou can add the packages you wish to install through 'apt' to the 'packages.txt' file, as shown:\n"
+		echo -e "package1_name\npackage2_name\n.\n.\n.\n"
+	fi
+
+	sudo rm /tmp/DROPZONE/ -rf && mkdir -p /tmp/DROPZONE/install_results
+
+	run_installation_routine 2>> /tmp/DROPZONE/install_results/errors
+
+	# print the errors (if any)
+	echo -e "\n\n\n***** ERRORS ENCOUNTERED *****\n\n\n"
+	cat /tmp/DROPZONE/install_results/errors
+
+	# show undervolt stats
+	echo -e "\n\n\n***** UNDERVOLTING STATUS *****\n\n\n"
+	sudo undervolt --read
+
+	# show headphone jack state
+	echo -e "\n\n\n***** HEADPHONE JACK MICROPHONE FIX *****\n\n\n"
+	echo -e "${mic_fix_state}\n\n"
+}
+
 install_bitwarden_deb () {
 	echo -e "\n# Installing Bitwarden...\n"
 	wget "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=deb" -O /tmp/DROPZONE/bitwarden.deb && sudo apt install /tmp/DROPZONE/bitwarden.deb -y
@@ -125,42 +167,5 @@ run_installation_routine () {
 	sudo updatedb
 }
 
-sudo echo  # prompt for sudo-password
 
-# warn if running as root
-if [ "$EUID" -eq 0 ]; then
-	echo "You are running as root (not recommended), the setup will be configured for the user 'root' only, are you sure you want to continue?"
-	echo "[y/n?]"
-	read -r choice
-	if [[ "${choice,,}" == "y" ]]; then
-		echo "proceeding"
-	elif [[ "${choice,,}" == "n" ]]; then
-		echo "Run again with desired user."
-		exit
-	else
-		echo "Not what I asked for. I dont have time for this shit :)"
-		exit
-	fi
-fi
-
-# check packages.txt exists
-if [ ! -f "packages.txt" ]; then
-	echo -e "'packages.txt' is missing, please create it before running again.\n\nYou can add the packages you wish to install through 'apt' to the 'packages.txt' file, as shown:\n"
-	echo -e "package1_name\npackage2_name\n.\n.\n.\n"
-fi
-
-sudo rm /tmp/DROPZONE/ -rf && mkdir -p /tmp/DROPZONE/install_results
-
-run_installation_routine 2>> /tmp/DROPZONE/install_results/errors
-
-# print the errors (if any)
-echo -e "\n\n\n***** ERRORS ENCOUNTERED *****\n\n\n"
-cat /tmp/DROPZONE/install_results/errors
-
-# show undervolt stats
-echo -e "\n\n\n***** UNDERVOLTING STATUS *****\n\n\n"
-sudo undervolt --read
-
-# show headphone jack state
-echo -e "\n\n\n***** HEADPHONE JACK MICROPHONE FIX *****\n\n\n"
-echo -e "${mic_fix_state}\n\n"
+main "$@"; exit
