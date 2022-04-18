@@ -17,3 +17,4 @@ openvpn
 chromium-browser
 telegram-desktop
 msr-tools
+obs-studio
