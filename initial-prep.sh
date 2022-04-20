@@ -101,7 +101,8 @@ apply_undervolting () {
 
 disable_intel_turbo_boost (){
 	# disable the intel turbo boost technology that leads to CPU spikes
-	sudo cp "${base_dir}"turbo-boost.sh ~/Desktop/turbo-boost.sh && sudo ~/Desktop/turbo-boost.sh disable
+	sudo cp "${base_dir}"turbo-boost.sh /root/turbo-boost.sh && sudo chmod 755 /root/turbo-boost.sh && sudo /root/turbo-boost.sh disable
+	sudo bash -c 'echo -e "@reboot /root/turbo-boost.sh disable\n" >> /var/spool/cron/crontabs/root'
 }
 
 apply_fan_noise_fix () {
