@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ -z $(which rdmsr) ]]; then
+if [[ -z $(locate -b '\rdmsr') ]]; then
     echo "msr-tools is not installed. Run 'sudo apt-get install msr-tools' to install it." >&2
     exit 1
 fi
