@@ -7,7 +7,7 @@ After=hybrid-sleep.target
 [Service]
 Type=oneshot
 # If you have installed undervolt globally (via sudo pip install):
-ExecStart=/usr/local/bin/undervolt -v --core -100 --cache -100 --gpu -70
+ExecStart=/usr/local/bin/undervolt --gpu -75 --core -100 --cache -100 --uncore -100 --analogio -100 -p1 35 10
 # If you want to run from source:
 # ExecStart=/path/to/undervolt.py -v --core -100 --cache -100 --gpu -70
 
